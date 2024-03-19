@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import HandleSignIn from '../../services/handleSingIn_service';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({ setIsLoggedIn }) => {
+    const navigate = useNavigate();
     const leftClick = () => {
         const container = document.getElementById('container');
         container.classList.remove('right-panel-active');
@@ -17,10 +19,10 @@ const Login = () => {
 
     const handleSignInClick = async () => {
         const signInResult = await HandleSignIn(username, password);
-
         if (signInResult.success) {
-            // Autenticación exitosa, redirigir al usuario a la página principal
-            window.location.href = '/home';
+            // Autenticación exitosa, actualizar el estado de autenticación
+            setIsLoggedIn(true);
+            navigate('/'); // Usando navigate para redirigir
         } else {
             // Mostrar mensaje de error al usuario
             alert(signInResult.message);
@@ -295,28 +297,18 @@ const Login = () => {
                         <button onClick={handleSignInClick}>Ingresar</button>
                     </form>
                 </div>
-                <div className="form-container sign-in-container">
-                    <form action="#">
-                        <h1>Ingresar</h1>
-                        <span>Escribe tu usuario y contraseña</span>
-                        <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Usuario" />
-                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Contraseña" />
-                        <p>Olvidaste tu contraseña?</p>
-                        <button onClick={handleSignInClick}>Ingresar</button>
-                    </form>
-                </div>
                 <div className="overlay-container">
                     <div className="overlay">
                         <div className="overlay-panel overlay-left">
                             <h1>¿Quieres ser parte?</h1>
                             <p>Se parte de nuestro gran equipo en Footloose</p>
                             <p>Envia un correo a: correo@gmail.com</p>
-                            <button className="ghost" id="signIn" onClick={leftClick}>Volver</button>
+                            <button className="ghost" onClick={leftClick}>Volver</button>
                         </div>
                         <div className="overlay-panel overlay-right">
                             <h1>Bienvenido</h1>
                             <p>Escribe tu usuario y contraseña para poder ingresar al administrador de la galeria de footloose</p>
-                            <button className="ghost" id="signUp" onClick={rightClick}>Ser parte</button>
+                            <button className="ghost" onClick={rightClick}>Ser parte</button>
                         </div>
                     </div>
                 </div>

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import { FaSearch } from 'react-icons/fa';
 // import { Modal, Button, Form } from 'react-bootstrap';
 import ModalProducts from '../components/modalProducts';
 import FixedButtons from '../components/fixedButtons';
 import Products from '../components/products';
 import Filters from '../components/filters';
+import Search from '../components/search';
 
 function Catalog() {
     const [show, setShow] = useState(false);
@@ -34,22 +34,15 @@ function Catalog() {
             <div className="mt-4"></div> {/* Espacio entre el navbar y los contenedores */}
             <div className="container">
                 <div className="row">
-                    <div className="col-md-6 d-flex justify-content-center align-items-center">
-                        <div className="input-group mb-3">
-                            <span className="input-group-text" id="basic-addon1"><FaSearch /></span>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Buscador"
-                                aria-label="Buscador"
-                                aria-describedby="basic-addon1"
-                                style={{ outline: 'none', boxShadow: 'none' }} // Desactiva el resaltado azul
-                            />
-                        </div>
-                    </div>
+                    <Search />
+                </div>
+                <div className="col-md-3">
+                    {/* Contenedor de filtros */}
+                    <h2>Filtros</h2>
+                    {/* Aquí puedes colocar tus filtros */}
                 </div>
                 <div className="row">
-                    <Filters/>
+                    <Filters />
                     <Products/>
                 </div>
             </div>
