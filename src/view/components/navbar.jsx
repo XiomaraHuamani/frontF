@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FaSignOutAlt } from 'react-icons/fa';
+import { FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
+
 
 const Navbar = ({ setIsLoggedIn }) => {
   const navbarStyle = {
@@ -42,8 +43,15 @@ const Navbar = ({ setIsLoggedIn }) => {
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
+
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav ms-auto">
+              {/* Icono de usuario y nombre */}
+              <div className="d-flex align-items-center" style={{ marginRight: '50px' }}>
+                <FaUserCircle className="text-white me-2" size={30} />
+                <span className="text-white">Rodrigo Briceño</span>
+              </div>
+
               {/* Botón de logout */}
               <button
                 className="btn btn-light purple-button ghost"

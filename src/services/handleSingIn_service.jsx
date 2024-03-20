@@ -10,14 +10,15 @@ const handleSignIn = async (username, password) => {
         // Manejar la respuesta de la API
         if (response.status === 200) {
             // Autenticación exitosa
-            return { success: true, data: response.data };
+            const userData  = response.data.staff;
+            console.log(response.data.staff)
+            return { success: true, data: { userData  } };
+
         } else {
             // Autenticación fallida
             return { success: false, message: response.data.message };
         }
     } catch (error) {
-        console.log(username)
-        console.log(password)
         console.error('Error al iniciar sesión:', error);
         return { success: false, message: 'Error al iniciar sesión' };
     }

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext  } from 'react';
 import HandleSignIn from '../../services/handleSingIn_service';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from './../../Provaiders/auth_provaider';
 
 const Login = ({ setIsLoggedIn }) => {
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ const Login = ({ setIsLoggedIn }) => {
         const container = document.getElementById('container');
         container.classList.add('right-panel-active');
     };
-
+    const { setUserData } = useContext(AuthContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -22,6 +23,7 @@ const Login = ({ setIsLoggedIn }) => {
         if (signInResult.success) {
             // Autenticación exitosa, actualizar el estado de autenticación
             setIsLoggedIn(true);
+            setUserData(signInResult.data.userData);
             navigate('/'); // Usando navigate para redirigir
         } else {
             // Mostrar mensaje de error al usuario
@@ -31,6 +33,7 @@ const Login = ({ setIsLoggedIn }) => {
 
     return (
         <>
+
             <style>
                 {`
                     @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
