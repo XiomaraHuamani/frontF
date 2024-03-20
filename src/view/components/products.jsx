@@ -1,29 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import { FaTrash, FaEdit, FaEye, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import axios from 'axios';
+//imagen
 
-function Products() {
-    const [currentPage, setCurrentPage]= useState(1);
-    const productsPerPage = 12; // Número de productos por página
+//Productos
+const Products = () => {
+    const [products, setProducts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [image, setImage] = useState([]);
+    const productsPerPage = 4;
 
-    // Supongamos que tienes una lista de productos llamada "products"
-    // Puedes reemplazar esta variable con tu lista de productos real
-    const products = [
-        { id: 1, name: 'Producto 1', description: 'Descripción del Producto 1', price: 10, image: 'https://passarelape.vtexassets.com/arquivos/ids/1472377-800-auto?v=638454269668470000&width=800&height=auto&aspect=true' },
-        { id: 2, name: 'Producto 2', description: 'Descripción del Producto 2', price: 20, image: 'https://passarelape.vtexassets.com/arquivos/ids/1473760-800-auto?v=638460229870900000&width=800&height=auto&aspect=true' },
-        { id: 3, name: 'Producto 3', description: 'Descripción del Producto 3', price: 30, image: 'https://passarelape.vtexassets.com/arquivos/ids/1472269-800-auto?v=638454269410000000&width=800&height=auto&aspect=true' },
-        { id: 4, name: 'Producto 4', description: 'Descripción del Producto 4', price: 40, image: 'https://passarelape.vtexassets.com/arquivos/ids/1472479-800-auto?v=638454269912470000&width=800&height=auto&aspect=true' },
-        { id: 5, name: 'Producto 4', description: 'Descripción del Producto 4', price: 40, image: 'https://passarelape.vtexassets.com/arquivos/ids/1472479-800-auto?v=638454269912470000&width=800&height=auto&aspect=true' },
-        { id: 6, name: 'Producto 4', description: 'Descripción del Producto 4', price: 40, image: 'https://passarelape.vtexassets.com/arquivos/ids/1472479-800-auto?v=638454269912470000&width=800&height=auto&aspect=true' },
-        { id: 7, name: 'Producto 4', description: 'Descripción del Producto 4', price: 40, image: 'https://passarelape.vtexassets.com/arquivos/ids/1472479-800-auto?v=638454269912470000&width=800&height=auto&aspect=true' },
-        { id: 8, name: 'Producto 4', description: 'Descripción del Producto 4', price: 40, image: 'https://passarelape.vtexassets.com/arquivos/ids/1472479-800-auto?v=638454269912470000&width=800&height=auto&aspect=true' },
-        { id: 9, name: 'Producto 4', description: 'Descripción del Producto 4', price: 40, image: 'https://passarelape.vtexassets.com/arquivos/ids/1472479-800-auto?v=638454269912470000&width=800&height=auto&aspect=true' },
-        { id: 10, name: 'Producto 4', description: 'Descripción del Producto 4', price: 40, image: 'https://passarelape.vtexassets.com/arquivos/ids/1472479-800-auto?v=638454269912470000&width=800&height=auto&aspect=true' },
-        { id: 11, name: 'Producto 4', description: 'Descripción del Producto 4', price: 40, image: 'https://passarelape.vtexassets.com/arquivos/ids/1472479-800-auto?v=638454269912470000&width=800&height=auto&aspect=true' },
-        { id: 12, name: 'Producto 4', description: 'Descripción del Producto 4', price: 40, image: 'https://passarelape.vtexassets.com/arquivos/ids/1472479-800-auto?v=638454269912470000&width=800&height=auto&aspect=true' },
-        { id: 13, name: 'Producto 4', description: 'Descripción del Producto 4', price: 40, image: 'https://passarelape.vtexassets.com/arquivos/ids/1472479-800-auto?v=638454269912470000&width=800&height=auto&aspect=true' },
-        { id: 14, name: 'Producto 4', description: 'Descripción del Producto 4', price: 40, image: 'https://passarelape.vtexassets.com/arquivos/ids/1472479-800-auto?v=638454269912470000&width=800&height=auto&aspect=true' },
-        // Agrega más productos según sea necesario
-    ];
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/products/product/');
+                setProducts(response.data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+        fetchProducts();
+
+
+        const fetchImage = async ()  => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/products/image/');
+                setImage(response.data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+        fetchImage();
+       
+
+    }, []);
 
     // Calcular índices de los productos que se mostrarán en la página actual
     const indexOfLastProduct = currentPage * productsPerPage;
@@ -39,14 +49,22 @@ function Products() {
     const prevPage = () => {
         setCurrentPage(currentPage - 1);
     };
-
+    //imagen
+    //const Imagenes = require.context('{product.image}', true)
+    //const Imagenes = require.context('~/public', true);
+    //http://127.0.0.1:8000/products/image/   
     return (
         <>
             <div className="row row-cols-4 g-4">
                 {currentProducts.map(product => (
                     <div className="col" key={product.id}>
                         <div className="card h-100 product-card" style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden' }} onMouseEnter={(e) => e.currentTarget.querySelector('.card-overlay').style.opacity = 0.7} onMouseLeave={(e) => e.currentTarget.querySelector('.card-overlay').style.opacity = 0}>
-                            <img src={product.image} className="card-img-top" alt={product.name} />
+                        {image.map(img => (
+                        <img src={`http://127.0.0.1:8000/products/image${img.image}`} className="card-img-top" alt={product.name} />
+                        ))}
+                        {/* <img src={`http://127.0.0.1:8000/products/image${product.image}`} className="card-img-top" alt={product.name} /> */}
+                        {/* <img src={Imagenes(`./${product.image}`)} className="card-img-top" alt={product.name} /> */}
+                            {/* <img src={'http://127.0.0.1:8000/products/image/'} className="card-img-top" alt={product.name} /> */}
                             <div className="card-body">
                                 <h5 className="card-title">{product.name}</h5>
                                 <p className="card-text">{product.description}</p>
